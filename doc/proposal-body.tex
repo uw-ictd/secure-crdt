@@ -1,0 +1,74 @@
+\section{Project Description}
+
+I would like to explore the challenges and opportunities of combining
+concepts from the world of conflict free replicated data types (CRDT)s
+with a backing secure distributed ledger. Specifically I would like to
+develop a prototype implementation of a distributed cellular network
+subscriber server for community cellular networks which will allow
+operation when the local rural network is partitioned from the global
+internet and network core. Individual nodes would collect and batch
+signed state updates locally in a manner consistent with CRDT
+principles, and then disseminate them to a backing secure distributed
+ledger.
+
+\subsection{Community Cellular Networks} 
+Unlike the internet, cellular networks perform robust authentication
+and network access control of nodes on the network. This control
+allows for cellular networks to provide tighter guarantees on
+end-to-end quality of service and track each user's consumption. These
+access logs are primarily maintained for the purposes of billing, but
+also serve an important role to law enforcement. Community cellular
+networks are full cellular networks, using the same technologies and
+user devices (cellphones) as national carriers, but scoped for small
+rural communities where national carriers are not incentivized to
+deploy their own infrastructure.\cite{Heimerllongitudinalstudylocal2015}
+
+Due to their rural nature, community cellular networks often cope with
+a slow and intermittent backhaul connection between the edge community
+and the network core. Traditional approaches requiring updates to
+shared subscriber state do not allow the network to function when
+backhaul is down, although in a rural community such local calling
+can be valuable or even lifesaving.
+
+\subsection{CRDT}
+Conflict-Free Replicated Data Types of a special type of data which
+have been shown to provide firm guarantees of Strong Eventual
+Consistency.\cite{ShapiroConflictfreereplicateddata2011} New databases exist based on CRDTs designed to
+allow hyper-scale web services to respond quickly to queries where
+having the exact most up to date data is not essential and the
+connection to other database replicas may be unreliable.\cite{DatanetNewCRDT16} These
+databases provide a guarantee that strong consistency can be achieved
+within a finite time window as soon as connectivity is restored. As
+far as I have found, all implementations assume benign nodes.
+
+\subsection{Secure Distributed Ledgers}
+Colloquially referred to as ``blockchains,'' secure distributed
+ledgers allow for nodes in a network to efficiently share a view of
+global state in a completely distributed manner, without a trusted
+intermediary, and in a way tolerant to failure and compromise of
+individual nodes.\cite{BabuBlockchainTelco2016} In the context of community networking, these
+ledgers would facilitate independent communities in a region to band
+together into federations with transparent roaming between the
+communities.
+
+\section{References \& Related Work}
+Many high level whitepapers cover the ``opportunities'' for
+blockchains in
+telecommunications\cite{BabuBlockchainTelco2016}\cite{BubleyBlockchainTelecomsIndustry2017}\cite{BaeOperatingmiddledigital},
+but they seem to all be abstract consulting reports. There is one key
+paper\cite{JoverdHSSdistributedPeertoPeer2016a} which explores
+building a distributed Home Subscriber Server on a distributed ledger,
+but it does not address intermittent backhaul and is only concerned
+with user authentication, not user resource tracking as I would like
+to attempt. To get a background on the project I would recommend
+looking at Jover and Lackey \cite{JoverdHSSdistributedPeertoPeer2016a}
+and Shapiro et al.\cite{ShapiroConflictfreereplicateddata2011} as they
+are the most relevant to the project.
+
+\section{Tools}
+
+I plan to leverage the open source ledger tools available from the
+hyperledger consortium (https://github.com/hyperledger) and my lab's
+current community cellular network management
+software\cite{Heimerllongitudinalstudylocal2015} and network
+testbed. I already have access to these resources.
