@@ -9,7 +9,7 @@
 PACKAGE=acmart
 
 DOCS = \
-	proposal.tex
+	main.tex
 
 PDF = ${DOCS:%.tex=%.pdf}
 
@@ -37,7 +37,7 @@ all:  ${PDF}
 	do pdflatex $<; done
 
 
-proposal.pdf: proposal-body.tex
+main.pdf: main.tex
 
 
 .PRECIOUS:  $(PACKAGE).cfg $(PACKAGE).cls
