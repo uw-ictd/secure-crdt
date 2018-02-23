@@ -9,13 +9,13 @@ import (
 	"github.com/hyperledger/fabric/protos/peer"
 )
 
-// Account manages a user account registration
+// UserAccountChaincode tracks a user account registrations
 type UserAccountChaincode struct {
 }
 
 // UserAccountData organizes all data associated with a single user.
 type UserAccountData struct {
-	PublicKey string `json:"publicKey"`
+	PublicKey string `json:"PublicKey"`
 }
 
 // Init is called during chaincode instantiation to initialize any
