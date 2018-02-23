@@ -1,11 +1,11 @@
 # Ignore latex products in doc directories
-**/doc/*.cls
-**/doc/*.log
-**/doc/*.cut
-**/doc/img/*-converted-to.pdf
-**/doc/*.aux
-**/doc/*.bbl
-**/doc/*.blg
-**/doc/*.out
-**/doc/*.pdf
+**/doc/*/*.cls
+**/doc/*/*.log
+**/doc/*/*.cut
+**/doc/*/img/*-converted-to.pdf
+**/doc/*/*.aux
+**/doc/*/*.bbl
+**/doc/*/*.blg
+**/doc/*/*.out
+**/doc/*/*.pdf
 
