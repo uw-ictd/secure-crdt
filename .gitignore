@@ -9,3 +9,5 @@
 **/doc/*/*.out
 **/doc/*/*.pdf
 
+# Ignore imported node.js libaries
+**/node_modules/
