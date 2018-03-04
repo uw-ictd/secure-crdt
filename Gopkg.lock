@@ -155,6 +155,12 @@
 
 [[projects]]
   branch = "master"
+  name = "github.com/hyperledger/fabric-sdk-go"
+  packages = ["."]
+  revision = "abe90446153d948e28b0fd98b322c84329ee8947"
+
+[[projects]]
+  branch = "master"
   name = "github.com/looplab/fsm"
   packages = ["."]
   revision = "8def87414f14eaa69e4ee40abd20a7c195cea6f4"
@@ -357,6 +363,6 @@
 [solve-meta]
   analyzer-name = "dep"
   analyzer-version = 1
-  inputs-digest = "9978c1a66a8e624f46405e9a0b7702f6a8c39c0a2b3094950f1c4d8ff3e5a356"
+  inputs-digest = "641e96fe54d74ff8598a5bfd3389efb2ed4837574f9037d80645bc2ea7bc1496"
   solver-name = "gps-cdcl"
   solver-version = 1
