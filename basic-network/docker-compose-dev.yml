@@ -1,8 +1,5 @@
 version: '3.5'
 
-networks:
-  development:
-
 services:
   peer0.org1.example.com.dev:
     container_name: peer0.org1.example.com
@@ -19,7 +16,7 @@ services:
       # # the following setting starts chaincode containers on the same
       # # bridge network as the peers
       # # https://docs.docker.com/compose/networking/
-      - CORE_VM_DOCKER_HOSTCONFIG_NETWORKMODE=${COMPOSE_PROJECT_NAME}_development
+      - CORE_VM_DOCKER_HOSTCONFIG_NETWORKMODE=${COMPOSE_PROJECT_NAME}_basic
       - CORE_LEDGER_STATE_STATEDATABASE=goleveldb
     working_dir: /opt/gopath/src/github.com/hyperledger/fabric
     command: peer node start --peer-chaincodedev=true
@@ -61,3 +58,5 @@ services:
       - orderer.example.com
       - ca.example.com
       - peer0.org1.example.com.dev
+    networks:
+      - basic
