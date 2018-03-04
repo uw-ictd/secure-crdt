@@ -1,3 +1,0 @@
-[submodule "lib/fabric-samples"]
-	path = lib/fabric-samples
-	url = git@github.com:matt9j/fabric-samples.git
