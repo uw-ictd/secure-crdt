@@ -9,5 +9,8 @@
 **/doc/*/*.out
 **/doc/*/*.pdf
 
-# Ignore imported node.js libaries
-**/node_modules/
+# Ignore npm imported node.js modules
+node_modules/
+
+# Ignore go vendor directories
+vendor/
