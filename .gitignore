@@ -1,3 +1,14 @@
+# Ignore all
+*
+# Unignore all with extensions
+!*.*
+# Unignore all dirs
+!*/
+# Ignore .directories
+.*/
+
+### Above will ignore all files without an extension... aka go binaries ###
+
 # Ignore latex products in doc directories
 **/doc/*/*.cls
 **/doc/*/*.log
