@@ -11,6 +11,12 @@
   revision = "d6e3b3328b783f23731bc4d058875b0371ff8109"
 
 [[projects]]
+  name = "github.com/Knetic/govaluate"
+  packages = ["."]
+  revision = "d216395917cc49052c7c7094cf57f09657ca08a8"
+  version = "v3.0.0"
+
+[[projects]]
   name = "github.com/Microsoft/go-winio"
   packages = ["."]
   revision = "7da180ee92d8bd8bb8c37fc560e673e6557c392f"
@@ -21,6 +27,26 @@
   name = "github.com/Nvveen/Gotty"
   packages = ["."]
   revision = "cd527374f1e5bff4938207604a14f2e38a9cf512"
+
+[[projects]]
+  branch = "master"
+  name = "github.com/cloudflare/cfssl"
+  packages = [
+    "api",
+    "auth",
+    "certdb",
+    "config",
+    "crypto/pkcs7",
+    "csr",
+    "errors",
+    "helpers",
+    "helpers/derhelpers",
+    "info",
+    "log",
+    "ocsp/config",
+    "signer"
+  ]
+  revision = "74f2ddc212e277519d83f942a8efd3bb9e243f16"
 
 [[projects]]
   branch = "master"
@@ -104,12 +130,24 @@
   version = "v1.0.0"
 
 [[projects]]
+  name = "github.com/google/certificate-transparency-go"
+  packages = [
+    ".",
+    "asn1",
+    "tls",
+    "x509",
+    "x509/pkix"
+  ]
+  revision = "5ab67e519c93568ac3ee50fd6772a5bcf8aa460d"
+
+[[projects]]
   branch = "master"
   name = "github.com/hashicorp/hcl"
   packages = [
     ".",
     "hcl/ast",
     "hcl/parser",
+    "hcl/printer",
     "hcl/scanner",
     "hcl/strconv",
     "hcl/token",
@@ -156,7 +194,89 @@
 [[projects]]
   branch = "master"
   name = "github.com/hyperledger/fabric-sdk-go"
-  packages = ["."]
+  packages = [
+    ".",
+    "internal/github.com/hyperledger/fabric-ca/api",
+    "internal/github.com/hyperledger/fabric-ca/lib",
+    "internal/github.com/hyperledger/fabric-ca/lib/tls",
+    "internal/github.com/hyperledger/fabric-ca/sdkpatch/cryptosuitebridge",
+    "internal/github.com/hyperledger/fabric-ca/sdkpatch/logbridge",
+    "internal/github.com/hyperledger/fabric-ca/util",
+    "internal/github.com/hyperledger/fabric/bccsp",
+    "internal/github.com/hyperledger/fabric/bccsp/factory/sw",
+    "internal/github.com/hyperledger/fabric/bccsp/signer",
+    "internal/github.com/hyperledger/fabric/bccsp/sw",
+    "internal/github.com/hyperledger/fabric/bccsp/utils",
+    "internal/github.com/hyperledger/fabric/common/channelconfig",
+    "internal/github.com/hyperledger/fabric/common/crypto",
+    "internal/github.com/hyperledger/fabric/common/util",
+    "internal/github.com/hyperledger/fabric/events/consumer",
+    "internal/github.com/hyperledger/fabric/msp",
+    "internal/github.com/hyperledger/fabric/protos/orderer",
+    "internal/github.com/hyperledger/fabric/sdkpatch/cryptosuitebridge",
+    "internal/github.com/hyperledger/fabric/sdkpatch/logbridge",
+    "pkg/client/channel",
+    "pkg/client/channel/invoke",
+    "pkg/client/common/discovery",
+    "pkg/client/common/discovery/greylist",
+    "pkg/client/common/discovery/staticdiscovery",
+    "pkg/client/common/selection/staticselection",
+    "pkg/client/ledger",
+    "pkg/client/resmgmt",
+    "pkg/context",
+    "pkg/context/api/core",
+    "pkg/context/api/fab",
+    "pkg/core/config",
+    "pkg/core/config/comm",
+    "pkg/core/config/cryptoutil",
+    "pkg/core/config/urlutil",
+    "pkg/core/cryptosuite",
+    "pkg/core/cryptosuite/bccsp/sw",
+    "pkg/core/cryptosuite/bccsp/wrapper",
+    "pkg/core/identitymgr",
+    "pkg/errors/multi",
+    "pkg/errors/retry",
+    "pkg/errors/status",
+    "pkg/fab/ccpackager/gopackager",
+    "pkg/fab/channel",
+    "pkg/fab/channel/membership",
+    "pkg/fab/chconfig",
+    "pkg/fab/events",
+    "pkg/fab/events/consumer",
+    "pkg/fab/keyvaluestore",
+    "pkg/fab/mocks",
+    "pkg/fab/orderer",
+    "pkg/fab/peer",
+    "pkg/fab/resource",
+    "pkg/fab/resource/api",
+    "pkg/fab/signingmgr",
+    "pkg/fab/txn",
+    "pkg/fabsdk",
+    "pkg/fabsdk/api",
+    "pkg/fabsdk/factory/defclient",
+    "pkg/fabsdk/factory/defcore",
+    "pkg/fabsdk/factory/defsvc",
+    "pkg/fabsdk/provider/chpvdr",
+    "pkg/fabsdk/provider/fabpvdr",
+    "pkg/logging",
+    "pkg/logging/api",
+    "pkg/logging/decorator",
+    "pkg/logging/loglevel",
+    "pkg/logging/modlog",
+    "pkg/logging/testutils",
+    "test/integration",
+    "test/metadata",
+    "third_party/github.com/hyperledger/fabric/common/cauthdsl",
+    "third_party/github.com/hyperledger/fabric/core/ledger/kvledger/txmgmt/rwsetutil",
+    "third_party/github.com/hyperledger/fabric/core/ledger/util",
+    "third_party/github.com/hyperledger/fabric/protos/common",
+    "third_party/github.com/hyperledger/fabric/protos/ledger/rwset",
+    "third_party/github.com/hyperledger/fabric/protos/ledger/rwset/kvrwset",
+    "third_party/github.com/hyperledger/fabric/protos/msp",
+    "third_party/github.com/hyperledger/fabric/protos/orderer",
+    "third_party/github.com/hyperledger/fabric/protos/peer",
+    "third_party/github.com/hyperledger/fabric/protos/utils"
+  ]
   revision = "abe90446153d948e28b0fd98b322c84329ee8947"
 
 [[projects]]
@@ -220,10 +340,10 @@
   version = "v1.1.0"
 
 [[projects]]
+  branch = "master"
   name = "github.com/pkg/errors"
   packages = ["."]
-  revision = "645ef00459ed84a119197bfb8d8205042c6df63d"
-  version = "v0.8.0"
+  revision = "30136e27e2ac8d167177e8a583aa4c3fea5be833"
 
 [[projects]]
   name = "github.com/sirupsen/logrus"
@@ -259,15 +379,20 @@
   version = "v1.0.0"
 
 [[projects]]
+  branch = "master"
   name = "github.com/spf13/viper"
   packages = ["."]
-  revision = "25b30aa063fc18e48662b86996252eabdcf2f0c7"
-  version = "v1.0.0"
+  revision = "aafc9e6bc7b7bb53ddaa75a5ef49a17d6e654be5"
 
 [[projects]]
   branch = "master"
   name = "golang.org/x/crypto"
   packages = [
+    "cryptobyte",
+    "cryptobyte/asn1",
+    "ocsp",
+    "pkcs12",
+    "pkcs12/internal/rc2",
     "sha3",
     "ssh/terminal"
   ]
@@ -363,6 +488,6 @@
 [solve-meta]
   analyzer-name = "dep"
   analyzer-version = 1
-  inputs-digest = "641e96fe54d74ff8598a5bfd3389efb2ed4837574f9037d80645bc2ea7bc1496"
+  inputs-digest = "fca48df96654f89356da5176ad5de38b6721b7d2ec30b44e1753f42e776797a6"
   solver-name = "gps-cdcl"
   solver-version = 1
