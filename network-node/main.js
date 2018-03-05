@@ -28,7 +28,7 @@ console.log('Store path:'+store_path);
 cc_executor.setupCrypto(fabric_client, store_path);
 
 // Create a store to queue disconnected tuples.
-const backlog = new HashSet();
+let backlog = new HashSet();
 let disconnected = false;
 
 // HTTP Server properties.
@@ -49,9 +49,23 @@ app.post('/disconnected', upload.array(), (request, response, next) => {
     }
 
     if (request.body.status === 'false') {
-       disconnected = false;
-       response.status(200).send("System now connected");
-       return;
+        disconnected = false;
+        response.status(200).send("System now connected");
+        console.log("Processing backlogged entries");
+        let backlog_array = backlog.toArray();
+        backlog = new HashSet();
+        for (let index = 0; index < backlog_array.length; ++index) {
+            let array_entry = backlog_array[index];
+            let userId = array_entry.userId;
+            let entry = array_entry.entry;
+            cc_executor.invokeChaincode(fabric_client, channel, 'chronicle', 'record',
+                                        [userId, entry.change, entry.uniqueId, entry.userKey]).then((result) => {
+                                             console.log("Uploaded", array_entry);
+            }).catch((err) => {
+                console.log("Upload conflict with", array_entry, err.toString());
+            });
+        }
+        return;
     }
 
     response.status(400).send("Accepts only 'true' or 'false'.")
@@ -69,6 +83,7 @@ app.get('/:userId/pubkey', (request, response) => {
 app.post('/:userId', upload.array(), (request, response, next) => {
     if (disconnected === true) {
         response.status(400).send("Cannot register a new user while disconnected");
+        return;
     }
 
     cc_executor.invokeChaincode(fabric_client, channel, 'account', 'register',
@@ -76,6 +91,53 @@ app.post('/:userId', upload.array(), (request, response, next) => {
         response.status(200).send(result);
     }).catch((err) => {
         response.status(500).send(err.toString());
+    });
+});
+
+app.get('/:userId/balance', (request, response) => {
+    let userId = request.params.userId;
+    cc_executor.queryChaincode(fabric_client, channel, 'chronicle', 'computeResult', [userId]).then((result) => {
+        response.status(200).send({userId: userId, balance: result.toString()});
+    }).catch((err) => {
+        response.status(500).send(err.toString());
+    });
+});
+
+app.post('/:userId/entry', upload.array(), (request, response, next) => {
+    let entry = request.body;
+
+    // Check the entry for validity.
+    if (!entry.hasOwnProperty('change') || !entry.hasOwnProperty('uniqueId') || !entry.hasOwnProperty('userKey')) {
+        response.status(400).send("Require a change, uniqueId, and userKey");
+        return;
+    }
+
+    // Check key.
+    cc_executor.queryChaincode(fabric_client, channel, 'account', 'getPublicKey', [request.params.userId]).then((result) => {
+        console.log("equality");
+        console.log(result.toString());
+        console.log(request.body.userKey);
+        if (result.toString() !== request.body.userKey){
+            response.status(400).send("Provided key is invalid");
+            return;
+        }
+
+        if (disconnected === true) {
+            backlog.add({userId: request.params.userId, entry: entry});
+            response.status(200).send("System disconnected: entry logged for later upload.");
+            return;
+        }
+
+        cc_executor.invokeChaincode(fabric_client, channel, 'chronicle', 'record',
+                                    [request.params.userId, request.body.change,
+                                     request.body.uniqueId, request.body.userKey]).then((result) => {
+            response.status(200).send(result);
+        }).catch((err) => {
+            response.status(500).send(err.toString());
+        });
+    }).catch((err) => {
+        response.status(500).send(err.toString());
+        console.log("Rejecting entry from unknown user.")
     });
 });
 
