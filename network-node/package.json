@@ -1,8 +1,8 @@
 {
-    "name": "fabcar",
+    "name": "station",
     "version": "1.0.0",
-    "description": "Hyperledger Fabric Car Sample Application",
-    "main": "fabcar.js",
+    "description": "The basestation component of an offline capable federated CRDT.",
+    "main": "main.js",
     "scripts": {
         "test": "echo \"Error: no test specified\" && exit 1"
     },
@@ -15,13 +15,13 @@
         "hashset": "0.0.6",
         "multer": "^1.3.0"
     },
-    "author": "Anthony O'Dowd",
+    "author": "Matt Johnson",
     "license": "Apache-2.0",
     "keywords": [
         "Hyperledger",
         "Fabric",
-        "Car",
-        "Sample",
-        "Application"
+        "Community",
+        "CRDT",
+        "Offline"
     ]
 }
