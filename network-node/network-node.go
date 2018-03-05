@@ -1,6 +1,9 @@
 package main
 
 import (
+	"fmt"
+	"log"
+	"net/http"
 	"path"
 	"strconv"
 	"testing"
@@ -10,13 +13,11 @@ import (
 
 	"github.com/hyperledger/fabric-sdk-go/test/integration"
 	"github.com/hyperledger/fabric-sdk-go/test/metadata"
-	"github.com/hyperledger/fabric-sdk-go/third_party/github.com/hyperledger/fabric/common/cauthdsl"
 
 	"github.com/hyperledger/fabric-sdk-go/pkg/client/channel"
 	"github.com/hyperledger/fabric-sdk-go/pkg/client/resmgmt"
 
 	"github.com/hyperledger/fabric-sdk-go/pkg/core/config"
-	packager "github.com/hyperledger/fabric-sdk-go/pkg/fab/ccpackager/gopackager"
 	"github.com/hyperledger/fabric-sdk-go/pkg/fabsdk"
 )
 
@@ -25,7 +26,25 @@ const (
 	orgName   = "Org1"
 	orgAdmin  = "Admin"
 	ccID      = "e2eExampleCC"
+	keystorePath = "./nocommit-client-keystore"
 )
+
+func handler(w http.ResponseWriter, r *http.Request) {
+	fmt.Fprintf(w, "Hi there, I love %s!", r.URL.Path[1:])
+}
+
+func main() {
+	http.HandleFunc("/", handler)
+
+	sdk, err := fabsdk.New(config.FromFile("./sdk-config.yml"))
+	if err != nil {
+		log.Fatalf("Config file fail: %s", err)
+	}
+	fmt.Printf("Started the sdk")
+	defer sdk.Close()
+
+	log.Fatal(http.ListenAndServe(":8080", nil))
+}
 
 func runWithConfigFixture(t *testing.T) {
 	Run(t, config.FromFile("../"+integration.ConfigTestFile))
@@ -72,28 +91,6 @@ func Run(t *testing.T, configOpt core.ConfigProvider, sdkOpts ...fabsdk.Option) 
 	// Org peers join channel
 	if err = orgResMgmt.JoinChannel(channelID); err != nil {
 		t.Fatalf("Org peers failed to JoinChannel: %s", err)
-	}
-
-	// Create chaincode package for example cc
-	ccPkg, err := packager.NewCCPackage("github.com/example_cc", "../../fixtures/testdata")
-	if err != nil {
-		t.Fatal(err)
-	}
-
-	// Install example cc to org peers
-	installCCReq := resmgmt.InstallCCRequest{Name: ccID, Path: "github.com/example_cc", Version: "0", Package: ccPkg}
-	_, err = orgResMgmt.InstallCC(installCCReq)
-	if err != nil {
-		t.Fatal(err)
-	}
-
-	// Set up chaincode policy
-	ccPolicy := cauthdsl.SignedByAnyMember([]string{"Org1MSP"})
-
-	// Org resource manager will instantiate 'example_cc' on channel
-	err = orgResMgmt.InstantiateCC(channelID, resmgmt.InstantiateCCRequest{Name: ccID, Path: "github.com/example_cc", Version: "0", Args: integration.ExampleCCInitArgs(), Policy: ccPolicy})
-	if err != nil {
-		t.Fatal(err)
 	}
 
 	// ************ Test setup complete ************** //
