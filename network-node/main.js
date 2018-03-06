@@ -41,7 +41,7 @@ app.get('/disconnected', (request, response) => {
 });
 
 app.post('/disconnected', upload.array(), (request, response, next) => {
-    console.log(request.body);
+    console.info("POST /disconnected ->", request.body);
     if (request.body.status === 'true') {
        disconnected = true;
        response.status(200).send("Emulating disconnection");
@@ -81,6 +81,7 @@ app.get('/:userId/pubkey', (request, response) => {
 });
 
 app.post('/:userId', upload.array(), (request, response, next) => {
+    console.info("POST", request.params.userId, "->", request.body);
     if (disconnected === true) {
         response.status(400).send("Cannot register a new user while disconnected");
         return;
@@ -105,6 +106,7 @@ app.get('/:userId/balance', (request, response) => {
 
 app.post('/:userId/entry', upload.array(), (request, response, next) => {
     let entry = request.body;
+    console.info("POST", request.params.userId, "/entry ->", request.body);
 
     // Check the entry for validity.
     if (!entry.hasOwnProperty('change') || !entry.hasOwnProperty('uniqueId') || !entry.hasOwnProperty('userKey')) {
@@ -114,9 +116,6 @@ app.post('/:userId/entry', upload.array(), (request, response, next) => {
 
     // Check key.
     cc_executor.queryChaincode(fabric_client, channel, 'account', 'getPublicKey', [request.params.userId]).then((result) => {
-        console.log("equality");
-        console.log(result.toString());
-        console.log(request.body.userKey);
         if (result.toString() !== request.body.userKey){
             response.status(400).send("Provided key is invalid");
             return;
@@ -137,7 +136,6 @@ app.post('/:userId/entry', upload.array(), (request, response, next) => {
         });
     }).catch((err) => {
         response.status(500).send(err.toString());
-        console.log("Rejecting entry from unknown user.")
     });
 });
 
