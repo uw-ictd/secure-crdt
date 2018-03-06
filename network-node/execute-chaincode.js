@@ -54,12 +54,14 @@ exports.queryChaincode = (fabric_client, channel, cc_name, cc_function, cc_args_
             if (query_responses && query_responses.length === 1) {
                 if (query_responses[0] instanceof Error) {
                     console.error("error from query = ", query_responses[0]);
+                    reject(query_responses[0]);
                 } else {
                     console.log("Response is ", query_responses[0].toString());
                     resolve(query_responses[0]);
                 }
             } else {
                 console.log("No payloads were returned from query");
+                reject();
             }
         }).catch((err) => {
             console.error('Failed to query successfully :: ' + err);
