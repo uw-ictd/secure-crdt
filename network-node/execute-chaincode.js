@@ -6,9 +6,6 @@
 const Fabric_Client = require('fabric-client');
 const util = require('util');
 
-// TODO(matt9j) Remove global state when possible.
-var event_hub = null
-
 exports.setupCrypto = (fabric_client, store_path) => {
     // Create the key value store as defined in the fabric-client/config/default.json 'key-value-store' setting.
     Fabric_Client.newDefaultKeyValueStore({ path: store_path
@@ -26,9 +23,6 @@ exports.setupCrypto = (fabric_client, store_path) => {
         return fabric_client.getUserContext('user1', true);
     }).then((user_from_store) => {
         if (user_from_store && user_from_store.isEnrolled()) {
-            // Setup an event hub for blockchain notifications.
-            event_hub = fabric_client.newEventHub();
-            event_hub.setPeerAddr('grpc://localhost:7053');
             console.log('Successfully loaded user1 from persistence');
         } else {
             throw new Error('Failed to get user1.... run registerUser.js');
@@ -120,6 +114,9 @@ exports.invokeChaincode = (fabric_client, channel, cc_name, cc_function, cc_args
                 // under the then clause rather than having the catch clause process
                 // the status
                 let txPromise = new Promise((resolve, reject) => {
+                    // Setup an event hub for blockchain notifications.
+                    const event_hub = fabric_client.newEventHub();
+                    event_hub.setPeerAddr('grpc://localhost:7053');
                     let handle = setTimeout(() => {
                         event_hub.disconnect();
                         resolve({event_status: 'TIMEOUT'}); //we could use reject(new Error('Trnasaction did not complete within 30 seconds'));
