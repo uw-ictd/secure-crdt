@@ -7,7 +7,6 @@
 
 const loadtest = require('loadtest');
 let globalCounter = 0;
-// const sessionPrefix = Date.now();
 const sessionPrefix = "user";
 const uniqueSessionId = Date.now();
 
@@ -39,7 +38,7 @@ const parallelEntryRequestGen = function(params, options, client, callback) {
 };
 
 const registrationGen = function(params, options, client, callback) {
-    let userId = sessionPrefix + "-" + globalCounter++;
+    let userId = uniqueSessionId + "-" + globalCounter++;
     let message = {pubKey: userId + "key"};
     let message_string = JSON.stringify(message);
     options.headers['Content-Length'] = message_string.length;
@@ -82,7 +81,7 @@ let registrationOptions = {
     requestGenerator: registrationGen,
 };
 
-let testInstance = loadtest.loadTest(entryOptions, (error, result) => {
+let testInstance = loadtest.loadTest(registrationOptions, (error, result) => {
     if (error)
     {
         return console.error('Got an error: %s', error);
